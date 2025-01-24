@@ -1,0 +1,4 @@
+fastapi[standard]
+pg8000
+python-dotenv
+requests
