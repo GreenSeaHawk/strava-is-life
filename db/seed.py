@@ -6,79 +6,42 @@ def seed():
     conn = connect_to_db()
 
     try:
-        conn.run("DROP TABLE IF EXISTS ratings;")
-        conn.run("DROP TABLE IF EXISTS restaurants;")
-        conn.run("DROP TABLE IF EXISTS areas;")
+        conn.run("DROP TABLE IF EXISTS activities;")
         conn.run(
-            "CREATE TABLE areas (\
-                area_id SERIAL PRIMARY KEY,\
-                area_name VARCHAR(40) NOT NULL\
+            "CREATE TABLE activities (\
+                activity_id SERIAL PRIMARY KEY,\
+                name TEXT,\
+                distance FLOAT,\
+                moving_time INTEGER,\
+                elapsed_time INTEGER,\
+                type TEXT,\
+                sport_type TEXT,\
+                location_country TEXT,\
+                kudos_count INTEGER,\
+                suffer_score FLOAT\
             );"
         )
-        conn.run(
-            "CREATE TABLE restaurants (\
-                restaurant_id SERIAL PRIMARY KEY,\
-                restaurant_name VARCHAR(40) NOT NULL,\
-                area_id INT REFERENCES areas(area_id),\
-                cuisine VARCHAR(40),\
-                website VARCHAR(40)\
-            );"
-        )
-        conn.run(
-            "CREATE TABLE ratings (\
-                rating_id SERIAL PRIMARY KEY,\
-                restaurant_id INT,\
-                FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE,\
-                rating INT CHECK (rating >= 1 AND rating <= 5)\
-            );"
-        )
-
-        areas_path = "db/data/areas.json"
-        with open(areas_path, "r") as file:
+        activities_path = "db/activities.json"
+        with open(activities_path, "r") as file:
             data = json.load(file)
-            rows = data["areas"]
-
-        for row in rows:
+        count = 0
+        for activity in data:
+            count += 1
+            # print(count, activity["name"])
             conn.run(
-                "INSERT INTO areas (area_name) VALUES (:area_name)",
-                area_name=row["area_name"],
-            )
-
-        restaurants_path = "db/data/restaurants.json"
-        with open(restaurants_path, "r") as file:
-            data = json.load(file)
-            rows = data["restaurants"]
-
-        for row in rows:
-            rest_area_id = conn.run(
-                "SELECT area_id FROM areas WHERE area_name = :area_name",
-                area_name=row["area_name"],
-            )
-            conn.run(
-                "INSERT INTO restaurants \
-                    (restaurant_name, area_id, cuisine, website) \
-                VALUES \
-                    (:restaurant_name, :area_id, :cuisine, :website);",
-                restaurant_name=row["restaurant_name"],
-                area_id=rest_area_id[0][0],
-                cuisine=row["cuisine"],
-                website=row["website"],
-            )
-
-        ratings_path = "db/data/ratings.json"
-        with open(ratings_path, "r") as file:
-            data = json.load(file)
-            rows = data["ratings"]
-
-        for row in rows:
-            rest_name_id = conn.run(
-                "SELECT restaurant_id FROM restaurants WHERE restaurant_name = :restaurant_name",
-                restaurant_name=row["restaurant_name"],
-            )
-            conn.run(
-                "INSERT INTO ratings (restaurant_id, rating) VALUES (:restaurant_id, :rating)",
-                restaurant_id=rest_name_id[0][0],
-                rating=row["rating"],
+                """INSERT INTO activities (name, distance, moving_time, elapsed_time, type, sport_type,
+                  location_country, kudos_count, suffer_score) 
+                VALUES (:name, :distance, :moving_time, :elapsed_time, :type, :sport_type,
+                  :location_country, :kudos_count, :suffer_score)""",
+                name = activity["name"],
+                distance = activity["distance"],
+                moving_time = activity["moving_time"],
+                elapsed_time = activity["elapsed_time"],
+                type = activity["type"],
+                sport_type = activity["sport_type"],
+                location_country = activity["location_country"],
+                kudos_count = activity["kudos_count"],
+                suffer_score = activity.get("suffer_score")
             )
 
     finally:

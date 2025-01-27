@@ -1,0 +1,11 @@
+You are now connected to database "strava" as user "andrew-boyce".
+ activity_id |                     name                     | distance | moving_time | elapsed_time |  type   | sport_type | location_country | kudos_count | suffer_score 
+-------------+----------------------------------------------+----------+-------------+--------------+---------+------------+------------------+-------------+--------------
+           1 | So many tourists                             |  16253.2 |        2846 |         3062 | Ride    | Ride       | United Kingdom   |          14 |           14
+           2 | Forgot my helmet, had to go back             |  18582.9 |        3550 |         3887 | Ride    | Ride       | United Kingdom   |          13 |           11
+           3 | WU/2 x 10 mins @ 3:45 pace w/ 3 mins rest/CD |   9850.6 |        2612 |         2622 | Run     | Run        | United Kingdom   |          17 |           85
+           4 | So many activities                           |  10227.4 |        1699 |         1715 | Ride    | Ride       | United Kingdom   |          10 |           18
+           5 | Social badminton                             |     76.9 |        4662 |         4662 | Workout | Badminton  | United Kingdom   |          12 |           11
+           6 | Ride to badminton                            |  10188.3 |        1936 |         2022 | Ride    | Ride       | United Kingdom   |           9 |            6
+(6 rows)
+
