@@ -18,7 +18,8 @@ def seed():
                 sport_type TEXT,\
                 location_country TEXT,\
                 kudos_count INTEGER,\
-                suffer_score FLOAT\
+                suffer_score FLOAT,\
+                date TIMESTAMP\
             );"
         )
         activities_path = "db/activities.json"
@@ -30,9 +31,9 @@ def seed():
             # print(count, activity["name"])
             conn.run(
                 """INSERT INTO activities (name, distance, moving_time, elapsed_time, type, sport_type,
-                  location_country, kudos_count, suffer_score) 
+                  location_country, kudos_count, suffer_score, date) 
                 VALUES (:name, :distance, :moving_time, :elapsed_time, :type, :sport_type,
-                  :location_country, :kudos_count, :suffer_score)""",
+                  :location_country, :kudos_count, :suffer_score, :date)""",
                 name = activity["name"],
                 distance = activity["distance"],
                 moving_time = activity["moving_time"],
@@ -41,7 +42,8 @@ def seed():
                 sport_type = activity["sport_type"],
                 location_country = activity["location_country"],
                 kudos_count = activity["kudos_count"],
-                suffer_score = activity.get("suffer_score")
+                suffer_score = activity.get("suffer_score"),
+                date = activity["start_date_local"]
             )
 
     finally:
