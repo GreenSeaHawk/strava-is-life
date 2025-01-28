@@ -40,13 +40,14 @@ def get_activities(num_act=100, num_pages=1):
     list_of_acts = []
     for i in range(1, num_pages + 1):
         response = requests.get(f"https://www.strava.com/api/v3/athlete/activities?per_page={num_act}&page={i}&access_token={access_token}")
-        print(response, 'activities_response', i)
+        print(response, f'activities_response {i} of {num_pages}')
         profile_info = json.loads(response.text)
         for act in profile_info:
             list_of_acts.append(act)
-    # print(profile_info)
 
     with open("db/activities.json", "w") as f:
         json.dump(list_of_acts, f, indent=4)
+        print(f'{len(list_of_acts)} activities added to the strava database')
 
-get_activities(200, 3)
+# 200 activities per page and 5 pages will load up to 1000 activities into the activities.json
+get_activities(200, 5)
