@@ -29,18 +29,21 @@ On strava.py you can change the number of activities requested. This is done by 
 and the number of pages (min 1). I've left it as collecting 1000 activities but this can be changed.
 
 Running strava.py will use the refresh_token, client_secret and client_id to get a new access token as this changes
-every 6 hours.
+every 6 hours:
+python db/strava.py
 
 Running seed.py will add the following information from each activity to the strava database:
 (id, name, distance, moving_time, elapsed_time, type, sport_type, location_country, kudos_count, suffer_score, date)
+python db/seed.py
 
 To check that it has all worked you can run:
 psql -f db/display.sql > db/display.txt
 display.txt should display the most recent 50 activities.
 
 I then set up superset to play around with data visualisation directly from the strava database.
-An example:
+A couple of examples:
 ![alt text](average_kudos_by_month_per_activity.png)
+![alt text](suffer_score_vs_kudos_count.png)
 
 Below is how I installed superset:
 https://www.youtube.com/watch?v=IP14ArymP08&list=PLH1gsHiD7JxiqIz88CGywds8jSMUEMcs6&index=2&ab_channel=ShantanuKhond
